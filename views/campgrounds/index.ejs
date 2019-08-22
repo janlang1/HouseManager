@@ -1,10 +1,10 @@
-<% include ../partials/header %>
-<div class = "container">
-	
+<% include ../partials/header %>	
+	<% if(currentUser && currentUser.isAdmin){ %>
+		<h1>You are Admin!</h1>
+	<% }%>
 	<header class = "jumbotron">
-		<h1>All the diferent campgrounds</h1>
-		<p>View camp from all over the world!</p>
-		<p><a class = "btn btn-primary btn-lg" href="/campgrounds/new">add new camp</a></p>
+		<p>View all houses you manage currently!</p>
+		<p><a class = "btn btn-primary btn-lg" href="/campgrounds/new">add new house</a></p>
 	</header>
 
 	
@@ -18,12 +18,15 @@
 					</div>
 					<p>
 						<a href ="/campgrounds/<%=camp._id %>" class = "btn btn-primary">more info</a>
+						<form action ="/campgrounds/<%=camp._id%>/join" method = "POST">
+							<button class = "btn btn-success">join</button>
+						</form>
+						
 					</p>
 				</div>
 			</div>
 		<% }); %>
 	</div>
-	<% include ../partials/footer %>	
-</div>
+<% include ../partials/footer %>	
 
 	

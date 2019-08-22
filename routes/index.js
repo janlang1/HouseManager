@@ -10,12 +10,21 @@ router.get("/", function(req, res){
 
 // show register form
 router.get("/register", function(req, res){
-   res.render("register"); 
+   res.render("register", {page: 'register'}); 
 });
 
 //handle sign up logic
 router.post("/register", function(req, res){
-    var newUser = new User({username: req.body.username});
+    var newUser = new User({
+        username: req.body.username,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        avatar: req.body.avatar
+    });
+    if(req.body.adminCode === "ago"){
+        newUser.isAdmin = true;
+    }
     User.register(newUser, req.body.password, function(err, user){
         if(err){
             console.log(err);
@@ -31,7 +40,7 @@ router.post("/register", function(req, res){
 
 //show login form
 router.get("/login", function(req, res){
-   res.render("login"); 
+   res.render("login", {page: 'login'}); 
 });
 
 //handling login logic

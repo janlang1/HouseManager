@@ -1,5 +1,6 @@
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
+var User = require("../models/user");
 
 // all the middleare goes here
 var middlewareObj = {};
@@ -11,7 +12,7 @@ middlewareObj.checkCampgroundOwnership = function(req, res, next) {
                res.redirect("back");
            }  else {
                // does user own the campground?
-            if(foundCampground.author.id.equals(req.user._id)) { //use equals bc string and obj arent equal
+            if(foundCampground.author.id.equals(req.user._id) || req.user.isAdmin) { //use equals bc string and obj arent equal
                 next();
             } else {
                 req.flash("error", "you no permission");
@@ -32,7 +33,7 @@ middlewareObj.checkCommentOwnership = function(req, res, next) {
                res.redirect("back");
            }  else {
                // does user own the comment?
-            if(foundComment.author.id.equals(req.user._id)) {
+            if(foundComment.author.id.equals(req.user._id) || req.user.isAdmin) {
                 next();
             } else {
                 req.flash("error", "you do not have permissions");
@@ -45,6 +46,28 @@ middlewareObj.checkCommentOwnership = function(req, res, next) {
         res.redirect("back");
     }
 }
+
+middlewareObj.checkProfileOwnership = function(req, res, next) {
+    if(req.isAuthenticated()){
+           User.findById(req.params.userId, function(err, foundUser){
+              if(err){
+                  req.flash("error", "camp not found");
+                  res.redirect("back");
+              }  else {
+                  // does user own the comment?
+               if(foundUser._id.equals(req.user._id) || req.user.isAdmin) {
+                   next();
+               } else {
+                   req.flash("error", "you do not have permissions");
+                   res.redirect("back");
+               }
+              }
+           });
+       } else {
+           req.flash("error", "you need to be logged in");
+           res.redirect("back");
+       }
+   }
 
 middlewareObj.isLoggedIn = function(req, res, next){
     if(req.isAuthenticated()){
