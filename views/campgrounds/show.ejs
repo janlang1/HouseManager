@@ -56,11 +56,15 @@
                         <div class = "thumbnail">
                             <img src = "<%= user.avatar%>">
                             <div class = "caption">
-                                <%=user.username%>
+                                <p><%=user.username%></p>
+                                <a href ="/profile/<%=user._id %>" class = "btn btn-xs btn-primary">info</a>
+                                <% if(currentUser && currentUser._id.equals(user._id) || currentUser && currentUser.isAdmin){ %>
+                                <form id="delete-form" action="/campgrounds/<%= campground._id %>/user?_method=DELETE" method="POST">
+                                    <button class="btn btn-xs btn-danger">Del</button>
+                                </form>
+                                <% } %>
                             </div>
-                            <p>
-                                <a href ="/profile/<%=user._id %>" class = "btn btn-primary">more info</a>
-                            </p>
+                                
                         </div>
                     </div>
                 <% }); %>

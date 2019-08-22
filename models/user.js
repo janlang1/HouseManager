@@ -9,6 +9,8 @@ var UserSchema = new mongoose.Schema({
     lastName: String,
     email: String,
     phoneNumber: String,
+    roomNumber: String,
+    rent: Number,
     isAdmin: {type: Boolean, default: false}
 });
 

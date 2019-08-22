@@ -111,4 +111,21 @@ router.delete("/:id",middleware.checkCampgroundOwnership, function(req, res){
     })
  });
 
+ //delete user from array in campground.users
+ router.delete("/:id/user",middleware.checkCampgroundOwnership, function(req, res){
+    Campground.findById(req.params.id, (err, foundCampground)=>{
+        if(err){
+            console.log(err);
+            res.redirect("/campgrounds/" + req.params.id);
+       } else {
+            let index = foundCampground.users.indexOf(req.user._id);
+            if(index > -1){
+                foundCampground.users.splice(index, 1);
+            }
+            foundCampground.save();
+            res.redirect("/campgrounds/" + req.params.id);
+       }
+    });
+ });
+
 module.exports = router;

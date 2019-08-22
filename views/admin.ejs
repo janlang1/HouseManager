@@ -1,0 +1,39 @@
+<% include partials/header %>
+<div class="container">
+    <p>All Houses</p>
+    <ul>
+        <% campgrounds.forEach((camp) => { %>
+            <li class="list-group-item">
+                <a href="/campgrounds/<%=camp._id%>"> <%=camp.name%></a>
+                <form class="pull-right" style="display: inline" action ="/campgrounds/<%=camp._id%>?_method=DELETE" method = "POST">
+                    <button class = "btn btn-xs btn-danger">delete</button>
+                </form>
+            </li>
+        <% }) %>
+        
+    </ul>
+    <p>All Users</p>
+    <ul>
+        <% users.forEach((user) => { %>
+            <li class="list-group-item">
+                <a href="/profile/<%=user._id%>"> <%=user.username%></a>
+
+                <% if(!currentUser._id.equals(user._id)) { %>
+                    <form class="pull-right" style="display: inline" action ="/profile/<%=user._id%>?_method=DELETE" method = "POST">
+                        <button class = "btn btn-xs btn-danger">delete</button>
+                    </form>
+                    <% if(!user.isAdmin){%>
+                        <form class="pull-right" style="display: inline; margin-right: 5px" action ="/profile/<%=user._id%>/makeadmin?_method=PUT" method = "POST">
+                            <button class = "btn btn-xs btn-warning">make admin</button>
+                        </form>
+                    <% } %>
+                <% } else { %>
+                    <button class = "pull-right btn btn-xs btn-info">can't delete yourself</button>
+                <%}%>
+                
+            </li>
+        <% }) %>
+    </ul>
+
+</div>
+<% include partials/footer %>

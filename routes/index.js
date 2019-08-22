@@ -2,6 +2,9 @@ var express = require("express");
 var router  = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
+var Comment = require("../models/comment");
+var Campground = require("../models/campground");
+var middleware = require("../middleware/")
 
 //root route
 router.get("/", function(req, res){
@@ -57,5 +60,29 @@ router.get("/logout", function(req, res){
    req.flash("success", "logged out");
    res.redirect("/campgrounds");
 });
+
+// NEED TO MOVE TO OWN ROUTES PAGE
+// admin route
+router.get("/admin", middleware.isLoggedIn, function(req, res){
+    if(req.user.isAdmin){
+        Campground.find({}, (err, allCampgrounds)=>{
+            if(err){
+                console.log(err);
+            } else {
+                User.find({}, (err, allUsers)=>{
+                    if(err){
+                        console.log(err);
+                    } else {
+                        res.render("admin", {campgrounds: allCampgrounds, users: allUsers});
+                    }
+                });
+            }
+        });
+    } else {
+        req.flash("error", "You are not an ADMIN")
+        res.redirect("/campgrounds");
+    }
+ });
+
 
 module.exports = router;

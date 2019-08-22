@@ -14,15 +14,13 @@
 				<div class = "thumbnail">
 					<img src = "<%= camp.image%>">
 					<div class = "caption">
-						<%=camp.name%>
-					</div>
-					<p>
+						<p><%=camp.name%></p>
 						<a href ="/campgrounds/<%=camp._id %>" class = "btn btn-primary">more info</a>
-						<form action ="/campgrounds/<%=camp._id%>/join" method = "POST">
+						<form style="display: inline" action ="/campgrounds/<%=camp._id%>/join" method = "POST">
 							<button class = "btn btn-success">join</button>
 						</form>
+					</div>
 						
-					</p>
 				</div>
 			</div>
 		<% }); %>

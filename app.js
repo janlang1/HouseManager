@@ -57,9 +57,9 @@ const   commentRoutes    = require("./routes/comments"),
  app.use("/campgrounds/:id/comments", commentRoutes);
  app.use("/profile", profileRoutes);
 
-//  app.get("/*", (req, res)=>{
-//   res.render("undefinedRoute");
-//  });
+ app.get("/*", (req, res)=>{
+  res.render("undefinedRoute");
+ });
 
 
 var port = process.env.PORT || 3000;
