@@ -11,6 +11,8 @@ var UserSchema = new mongoose.Schema({
     phoneNumber: String,
     roomNumber: String,
     rent: Number,
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
     isAdmin: {type: Boolean, default: false}
 });
 

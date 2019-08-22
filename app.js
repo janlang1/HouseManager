@@ -11,6 +11,9 @@ const   express     = require("express"),
         seedDB      = require("./seeds"),
         app         = express();
 
+//config for environment variables
+require('dotenv').config({path: __dirname + '/.env'});
+
 //mongod atlas username is johnWebApp
 mongoose.connect("mongodb://localhost:27017/house_manager", {useNewUrlParser: true});
 mongoose.set('useFindAndModify', false);
