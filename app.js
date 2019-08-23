@@ -14,9 +14,11 @@ const   express     = require("express"),
 //config for environment variables
 require('dotenv').config({path: __dirname + '/.env'});
 
+var url = process.env.DATABASEURL || "mongodb://localhost:27017/house_manager"
 //mongod atlas username is johnWebApp
 //mongoose.connect("mongodb://localhost:27017/house_manager", {useNewUrlParser: true});
-mongoose.connect("mongodb+srv://johnWebApp:" + process.env.MONGO_ATLAS_PW + "@cluster0-8ohi6.mongodb.net/test?retryWrites=true&w=majority", {
+
+mongoose.connect(url, {
   useNewUrlParser: true,
   useCreateIndex: true
 }).then(()=>{
