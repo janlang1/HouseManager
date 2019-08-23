@@ -42,7 +42,7 @@ router.get("/:userId", (req,res) => {
         if(err){
             console.log(err);
         } else {
-            res.render("profile/index", {userProfile: userProfile});
+            res.render("profile/index", {userProfile: userProfile, page: "profile"});
         }
     });
 });
@@ -57,13 +57,30 @@ router.get("/:userId/edit", middleware.checkProfileOwnership, (req,res) => {
     });
 });
 
-router.put("/:userId", middleware.checkProfileOwnership,(req,res) => {
-    User.findByIdAndUpdate(req.params.userId, req.body.profile, (err, updatedUserProfile)=>{
+router.put("/:userId", upload.single('image'), middleware.checkProfileOwnership,(req,res) => {
+    User.findById(req.params.userId, async function(err, user){
         if(err){
-            console.log(err);
-            res.redirect("/campgrounds");
+            req.flash("error", err.message);
+            res.redirect("back");
         } else {
-            res.redirect("/profile/" + req.params.userId);
+            if (req.file) {
+              try {
+                  await cloudinary.v2.uploader.destroy(user.avatarId);
+                  var result = await cloudinary.v2.uploader.upload(req.file.path);
+                  user.avatarId = result.public_id;
+                  user.avatar = result.secure_url;
+              } catch(err) {
+                  req.flash("error", err.message);
+                  return res.redirect("back");
+              }
+            }
+            user.firstName = req.body.profile.firstName;
+            user.lastName = req.body.profile.lastName;
+            user.email = req.body.profile.email;
+            user.phoneNumber = req.body.profile.phoneNumber;
+            user.save();
+            req.flash("success","Successfully Updated!");
+            res.redirect("/profile/" + user._id);
         }
     });
 });
@@ -90,6 +107,27 @@ router.put("/:userId/makeadmin", middleware.isLoggedIn,(req,res) => {
 //delete user
 router.delete("/:userId", middleware.isLoggedIn, (req,res) => {
     if(req.user.isAdmin){
+        User.findById(req.params.userId, async function(err, user) {
+            if(err) {
+              req.flash("error", err.message);
+              return res.redirect("back");
+            }
+            try {
+                await cloudinary.v2.uploader.destroy(user.avatarId);
+                while(user.documents.length > 0){
+                    await cloudinary.v2.uploader.destroy(user.documents[0].documentId);
+                }
+                user.remove();
+                req.flash('success', 'User deleted successfully!');
+                res.redirect('/admin');
+            } catch(err) {
+                if(err) {
+                  req.flash("error", err.message);
+                  return res.redirect("back");
+                }
+            }
+          });
+
         User.findByIdAndRemove(req.params.userId, (err, removedUserProfile)=>{
             if(err){
                 console.log(err);
@@ -100,6 +138,7 @@ router.delete("/:userId", middleware.isLoggedIn, (req,res) => {
                 res.redirect("/admin");
             }
         });
+
     }
     
 });

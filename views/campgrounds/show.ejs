@@ -77,7 +77,6 @@
                     <li class="list-group-item">
                         <%=document.documentName%>
                         <a href ="<%=document.documentUrl%>" class = "pull-right btn btn-xs btn-primary">download</a>
-                        <%=document.documentId%>
                         <% if(currentUser && campground.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
                             <form class="pull-right" style="display: inline" action ="/campgrounds/<%=campground._id%>/document/<%=document.documentId%>?_method=DELETE" method = "POST">
                                 <button class = "btn btn-xs btn-danger">delete</button>

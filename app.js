@@ -66,7 +66,7 @@ const   commentRoutes    = require("./routes/comments"),
 
 
 var port = process.env.PORT || 3000;
-app.listen(port, () => {
+app.listen(port, process.env.IP, () => {
   console.log("Server Has Started!");
 });
 // var listener = app.listen(3000);

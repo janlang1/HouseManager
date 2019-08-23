@@ -50,6 +50,7 @@ router.post("/register", upload.single('avatar'), function(req, res){
         //for username and password cant cast into a object from the ejs fileg
         var newUser = new User({
             avatar: result.secure_url,
+            avatarId: result.public_id,
             username: req.body.username,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
