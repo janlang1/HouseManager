@@ -15,7 +15,16 @@ const   express     = require("express"),
 require('dotenv').config({path: __dirname + '/.env'});
 
 //mongod atlas username is johnWebApp
-mongoose.connect("mongodb://localhost:27017/house_manager", {useNewUrlParser: true});
+//mongoose.connect("mongodb://localhost:27017/house_manager", {useNewUrlParser: true});
+mongoose.connect("mongodb+srv://johnWebApp:" + process.env.MONGO_ATLAS_PW + "@cluster0-8ohi6.mongodb.net/test?retryWrites=true&w=majority", {
+  useNewUrlParser: true,
+  useCreateIndex: true
+}).then(()=>{
+  console.log('Connected to DB!');
+}).catch (err => {
+  console.log("error:", err.message);
+});
+
 mongoose.set('useFindAndModify', false);
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
