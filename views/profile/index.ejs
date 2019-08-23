@@ -30,6 +30,31 @@
             <div class="col-md-12">
                 <p><strong>Supporting documents</strong></p>
                 <hr>
+                <div class = "row">
+                    <div class="list-group">
+                        <% userProfile.documents.forEach((document) =>{ %>
+                        <li class="list-group-item">
+                            <%=document.documentName%>
+                            <a href ="<%=document.documentUrl%>" class = "pull-right btn btn-xs btn-primary">download</a>
+                            <%=document.documentId%>
+                            <% if(currentUser && currentUser._id.equals(userProfile._id)|| currentUser && currentUser.isAdmin){ %>
+                                <form class="pull-right" style="display: inline" action ="/profile/<%=userProfile._id%>/document/<%=document.documentId%>?_method=DELETE" method = "POST">
+                                    <button class = "btn btn-xs btn-danger">delete</button>
+                                </form>
+                            <% } %>
+                        </li>
+                        <% }); %>
+                    </div>
+                </div>
+                <div class = "row">
+                    <% if(currentUser && currentUser._id.equals(userProfile._id) || currentUser && currentUser.isAdmin){ %>
+                    <form action="/profile/<%=userProfile._id%>/document" method="POST" enctype="multipart/form-data">
+                        <label for="doc">Add Document</label>
+                        <input type="file" id="document" name="doc" accept=".pdf" required>
+                        <div class = "form-group"><button class = "btn btn-xs btn-info">Submit</button></div>
+                    </form>
+                    <% }%>
+                </div>
 
             </div>
         </div>

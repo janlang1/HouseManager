@@ -236,6 +236,10 @@ router.post('/forgot', function(req, res, next) {
       res.redirect('/campgrounds');
     });
   });
+
+router.get("/contact", (req,res)=>{
+    res.render("contact");
+});
   
 
 module.exports = router;

@@ -69,6 +69,34 @@
                     </div>
                 <% }); %>
             </div>
+            <hr>
+            <h4>Documents</h4>
+            <div class = "row">
+                <div class="list-group">
+                    <% campground.documents.forEach((document) =>{ %>
+                    <li class="list-group-item">
+                        <%=document.documentName%>
+                        <a href ="<%=document.documentUrl%>" class = "pull-right btn btn-xs btn-primary">download</a>
+                        <%=document.documentId%>
+                        <% if(currentUser && campground.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                            <form class="pull-right" style="display: inline" action ="/campgrounds/<%=campground._id%>/document/<%=document.documentId%>?_method=DELETE" method = "POST">
+                                <button class = "btn btn-xs btn-danger">delete</button>
+                            </form>
+                        <% } %>
+                    </li>
+                    <% }); %>
+                </div>
+            </div>
+            <div class = "row">
+                <% if(currentUser && campground.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                <form action="/campgrounds/<%= campground._id %>/document" method="POST" enctype="multipart/form-data">
+                    <label for="doc">Add Document</label>
+                    <input type="file" id="document" name="doc" accept=".pdf" required>
+                    <div class = "form-group"><button class = "btn btn-xs btn-info">Submit</button></div>
+                </form>
+                <% }%>
+            </div>
+
             
             <a class="btn btn-primary" href="/campgrounds">back</a>
         </div>

@@ -13,7 +13,14 @@ var UserSchema = new mongoose.Schema({
     rent: Number,
     resetPasswordToken: String,
     resetPasswordExpires: Date,
-    isAdmin: {type: Boolean, default: false}
+    isAdmin: {type: Boolean, default: false},
+    documents: [
+        {
+            documentUrl: String,
+            documentId: String,
+            documentName: String,
+        }
+    ]
 });
 
 UserSchema.plugin(passportLocalMongoose)
