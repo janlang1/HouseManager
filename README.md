@@ -21,4 +21,5 @@ Future Implementations:
   2. When call to MongoDB comment returns 
     FIX: FIX: Check for null for comments (check ownership) and for show.js then add flash and redirect
     Need to do this for comment edit route too 
+
 Can use nested if statement in the function call back for the route
