@@ -14,3 +14,11 @@ Future Implementations:
 -React as the front-end framework
 -Cascading deletes from database
 -More features like rent tracking and payment methods
+
+*edge cases that were not checked:
+  1. When call to MongoDB house returns a null (not an error or object) website breaks
+    FIX: Check for null for campgrounds (check ownership) and for show.js then add flash and redirect
+  2. When call to MongoDB comment returns 
+    FIX: FIX: Check for null for comments (check ownership) and for show.js then add flash and redirect
+    Need to do this for comment edit route too 
+Can use nested if statement in the function call back for the route
